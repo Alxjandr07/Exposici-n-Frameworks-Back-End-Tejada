@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    container_name: presustentaciones-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/presustentaciones
+      SPRING_DATASOURCE_USERNAME: uteq
+      SPRING_DATASOURCE_PASSWORD: uteq123
+
+  db:
+    image: postgres:16
+    container_name: presustentaciones-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: presustentaciones
+      POSTGRES_USER: uteq
+      POSTGRES_PASSWORD: uteq123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
